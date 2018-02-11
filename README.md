@@ -1,7 +1,7 @@
 # object detection mAP metric
 
 
-标签： object detection mAP metric
+tag： object detection mAP metric
 
 ---
 
@@ -57,9 +57,9 @@ The simplest way to handle this is **delete** all this .pkl files.
 
 ### 4. 修订明细
 
-| 修订号   |  修订时间  |  修订版本  |  修订人  | 修订说明 |
-| :-----:  | :-----:    | :----:     | :-----:  | :----:   |
-| 1        | 2018-02-06 |   V1.0     |   胡孟   |          |
-| 2        |            |            |          |          |
-| 3        |            |            |          |          |
-| 4        |            |            |          |          |
+| revise indx  |  revise time |  revise version  |  reviser  | revise comments |
+| :-----:      | :-----:      | :----:           | :-----:   | :----:          |
+| 1            | 2018-02-06   |   V1.0           |   humengdoudou    |          |
+| 2            |              |                  |           |                 |
+| 3            |              |                  |           |                 |
+| 4            |              |                  |           |                 |
