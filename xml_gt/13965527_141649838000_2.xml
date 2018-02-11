@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<annotation>
+    <folder>clothesRecognition</folder>
+    <filename>13965527_141649838000_2.jpg</filename>
+    <source>
+        <database>My Database</database>
+        <annotation>clothesRecognition</annotation>
+        <image>flickr</image>
+        <flickrid>NULL</flickrid>
+    </source>
+    <owner>
+        <flickrid>NULL</flickrid>
+        <name>idaneel</name>
+    </owner>
+    <size>
+        <width>600</width>
+        <height>600</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>coat</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>186</xmin>
+            <ymin>143</ymin>
+            <xmax>327</xmax>
+            <ymax>406</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>pants</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>207</xmin>
+            <ymin>397</ymin>
+            <xmax>304</xmax>
+            <ymax>598</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>bag</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>222</xmin>
+            <ymin>178</ymin>
+            <xmax>338</xmax>
+            <ymax>400</ymax>
+        </bndbox>
+    </object>
+</annotation>
