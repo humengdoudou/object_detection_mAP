@@ -55,11 +55,9 @@ The simplest way to handle this is **delete** all this .pkl files.
 3. http://host.robots.ox.ac.uk/pascal/VOC/voc2012/htmldoc/devkit_doc.html
 4. https://sanchom.wordpress.com/2011/09/01/precision-recall/
 
-### 4. 修订明细
+### 4. revise details
 
 | revise indx  |  revise time |  revise version  |  reviser  | revise comments |
-| :-----:      | :-----:      | :----:           | :-----:   | :----:          |
-| 1            | 2018-02-06   |   V1.0           |   humengdoudou    |          |
+| :-----:      | :-----:      | :-----:          | :-----:   | :-----:         |
+| 1            |   2018-02-06           |      V1.0             |    humengdoudou          |                 |
 | 2            |              |                  |           |                 |
-| 3            |              |                  |           |                 |
-| 4            |              |                  |           |                 |
