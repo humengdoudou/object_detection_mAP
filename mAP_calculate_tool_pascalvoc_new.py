@@ -30,13 +30,14 @@ import os
 import numpy as np
 import xml.etree.ElementTree as ET
 
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+# no need pickle package to store cache right now
+# try:
+#     import cPickle as pickle
+# except ImportError:
+#     import pickle
 
 
-IOU_THRES = 0.5
+IOU_THRES = 0.5    # IoU threshold for calculating AP
 
 
 def parse_predict_txt(txt_folder, txt_file_name, exts = ".txt"):
@@ -74,7 +75,7 @@ def parse_gt_xml(filename):
         if obj.find('name').text is None:
             raise Exception("None class label")
 
-        obj_dict['name'] = obj.find('name').text    # class name, like coat, pants
+        obj_dict['name'] = obj.find('name').text    # class name, like coat, pants, bus. etc
         obj_dict['difficult'] = int(obj.find('difficult').text)
         bbox = obj.find('bndbox')
         obj_dict['bbox'] = [int(bbox.find('xmin').text),
@@ -125,15 +126,16 @@ def ap_eachclass(filename, xml_gt_file, mAP_calcu_image_list, classname, cache_d
     :param filename: detection results saved in txt_predict_class, like predict_bag.txt, filename.format(classname)
     :param xml_gt_file: gt .xml files string. xml_gt_file.format(image_filename)
     :param mAP_calcu_image_list: text file containing list of images for computing AP
-    :param classname: category name fot AP
+    :param classname: category name fot AP, each ap_eachclass call only compute 1-class AP
     :param cache_dir: caching annotations for each classname
-    :param ovthresh: overlap threshold
+    :param ovthresh: IoU overlap threshold
     :param use_07_metric: whether to use voc07's 11 point ap computation
     :return: rec, prec, ap
     """
-    if not os.path.isdir(cache_dir):
-        os.mkdir(cache_dir)
-    cache_file = os.path.join(cache_dir, (classname + '.pkl'))
+    # if not os.path.isdir(cache_dir):
+    #     os.mkdir(cache_dir)
+    # cache_file = os.path.join(cache_dir, (classname + '.pkl'))
+
     with open(mAP_calcu_image_list, 'r') as f:
         lines = f.readlines()
     image_filenames = [x.strip() for x in lines]
@@ -152,15 +154,15 @@ def ap_eachclass(filename, xml_gt_file, mAP_calcu_image_list, classname, cache_d
     # else:
     #     with open(cache_file, 'rb') as f:
     #         gt_dict = pickle.load(f)
-
     # do not need to store the cache files, comment above, and just read, 20180412, comment by hzhumeng01
+
     gt_dict = {}
     for ind, image_filename in enumerate(image_filenames):
         gt_dict[image_filename] = parse_gt_xml(xml_gt_file.format(image_filename))
 
     # -----gt-----extract objects in :param classname:
     bbox_dict = {}
-    npos = 0
+    npos = 0    # all gt bboxes, for recall calculation
     for image_filename in image_filenames:
         objects = [obj for obj in gt_dict[image_filename] if obj['name'] == classname]   # an image may has many same class rois
         bbox = np.array([x['bbox'] for x in objects])
@@ -218,15 +220,15 @@ def ap_eachclass(filename, xml_gt_file, mAP_calcu_image_list, classname, cache_d
 
             overlaps = inters / uni
             ovmax = np.max(overlaps)
-            jmax = np.argmax(overlaps)
+            jmax = np.argmax(overlaps)    # IoU
 
         if ovmax > ovthresh:
             if not r['difficult'][jmax]:
                 if not r['det'][jmax]:
-                    tp[d] = 1.
+                    tp[d] = 1.    # binggo~~~, correct detection
                     r['det'][jmax] = 1
                 else:
-                    fp[d] = 1.
+                    fp[d] = 1.  # sigh~~~
         else:
             fp[d] = 1.
 
@@ -344,8 +346,8 @@ class PascalVoc(object):
         ----------
             None
         """
-        # make all these folders for results, for computing AP and mAP
 
+        # make all these folders for results, for computing AP and mAP
         result_dir = os.path.join(self.root_path, self.txt_predict_class_folder)
         if not os.path.exists(result_dir):
             os.mkdir(result_dir)
@@ -383,6 +385,7 @@ class PascalVoc(object):
 
         for cls_ind, cls_name in enumerate(self.classes_list):
             # print('Writing {} VOC results file'.format(cls))
+            # each class saves 1-file
             filename = self.get_result_file_template().format(cls_name)
             with open(filename, 'wt') as f:
                 for img_ind, img_name in enumerate(self.image_name_list):  # loop read whole test image_list
@@ -428,20 +431,11 @@ class PascalVoc(object):
 if __name__ == "__main__":
 
     # -----0----- params
-    # root_path = "/home/hzhumeng01/logo_detect/object_detection_mAP_pascalvoc_self"
-    # gt_folder = "gt/xml_gt_5000_V4"      #  "xml_gt_5000"
-    # predict_folder = "20180419/txt_predict_5000_V4"    # "txt_predict_5000"
-    # mAP_calcu_image_list = "test_list/test_5000_V4.txt"   # "test_5000.txt"
-    # class_name_list = "logo.names"
-    # txt_predict_class_folder = "txt_predict_class"
-    # use_07_metric = False  #True  False
-
-
-    root_path = "/home/hzhumeng01/logo_detect/object_detection_mAP_pascalvoc_self"
+    root_path = "/home/voc_detect/object_detection_mAP_pascalvoc_self"
     gt_folder = "gt/self_test_xml_1712"   # self_test_xml_1712  QA_test_xml_1895
-    predict_folder = "pred/20181102/self_test_1712_txt" # QA_test_1895_txt  self_test_1712_txt
+    predict_folder = "pred/self_test_1712_txt" # QA_test_1895_txt  self_test_1712_txt
     mAP_calcu_image_list = "test_list/self_test_1712.txt"  # QA_test_1895 self_test_1712
-    class_name_list = "logo.names"
+    class_name_list = "voc.names"
     txt_predict_class_folder = "txt_predict_class"
     use_07_metric = False  # True  False
 
