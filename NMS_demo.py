@@ -32,9 +32,6 @@ def py_cpu_nms(dets, thresh):
         inter = w * h
         ovr = inter / (areas[i] + areas[order[1:]] - inter)
 
-
-        test = np.where(ovr <= thresh)
-
         inds = np.where(ovr <= thresh)[0]
         order = order[inds + 1]
 
@@ -45,7 +42,8 @@ if __name__ == '__main__':
     dets = np.array([[100,120,170,200,0.98],
                      [20,40,80,90,0.99],
                      [20,38,82,88,0.96],
-                     [200,380,182,488,0.9]])
+                     [200,380,282,488,0.9],
+                     [19,38,75,91, 0.8]])
 
     py_cpu_nms(dets, 0.5)
 
